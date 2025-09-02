@@ -8,6 +8,7 @@ class SolitaireBoard:
     def __init__(self, DEBUG: bool = False):
         self.deck: Deck = Deck()
         self.deck.create()
+        self.move_count: int = 0
         self.DEBUG: bool = DEBUG
 
         self.card_piles: list[Pile] = []  # Collection of 7 card piles
@@ -47,8 +48,6 @@ class SolitaireBoard:
              case 'move_king':
                  print('[DEBUGGING] move_king()')
                  self.move_king(1, 2)
-
-
 
     # Place card onto flipped pile
     def place(self,card: Card, pile_id: int) -> bool:
@@ -113,7 +112,6 @@ class SolitaireBoard:
             print(f'[DEBUG] All Cards Moved')
         return True
 
-
     def move_king(self, pile_id: int, target_id: int) -> bool:
         destination = self.card_piles[target_id - 1]
         if self.DEBUG:
@@ -162,11 +160,11 @@ class SolitaireBoard:
         for stack in self.ace_piles:
             top = stack.peek()
             if top:
-                print(str(top), end ='')
+                print(str(color_card(top)), end ='')
             else:
                 print("   ", end = '')
             print("|", end = '')
-        print('')
+        print(f"    Move Count: {self.move_count}")
 
     def print_title(self):
         space = 18
@@ -205,20 +203,26 @@ class SolitaireBoard:
         if self.deck.drawn_cards:
             card: Card = self.deck.drawn_cards[-1]
             print(f"NEXT CARD ({len(self.deck.undrawn_cards)}/{len(self.deck.drawn_cards)+len(self.deck.undrawn_cards)}): {color_card(card)}")
+        self.move_count += 1
 
     def print_success(self) -> bool:
         if self.success():
-            print("------------------------------------------------------------------\n"
-                  "*****************************************************************\n"
-                  "Congratulations! There are no more cards left\n"
-                  "       You have completed the game\n"
-                  "*****************************************************************\n"
-                  "------------------------------------------------------------------")
+            print(f"------------------------------------------------------------------\n"
+                  f"*****************************************************************\n"
+                  f"Congratulations! There are no more cards left\n"
+                  f"       You completed the game in {self.move_count} moves\n"
+                  f"*****************************************************************\n"
+                  f"------------------------------------------------------------------")
             return True
         else:
             return False
 
     def initialize_board(self):
+        self.deck.create()
+        for card_pile in self.card_piles:
+            card_pile.reset()
+        for ace_pile in self.ace_piles:
+            ace_pile.reset()
         self.deck.shuffle()
         for i in range(8):
             for pile in self.card_piles:

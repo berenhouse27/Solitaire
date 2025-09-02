@@ -41,6 +41,10 @@ class Pile:
         self.flipped = Stack()
         self.DEBUG: bool = DEBUG
 
+    def reset(self) -> None:
+        self.unflipped.clear()
+        self.flipped.clear()
+
     def push_unflip(self, card: Card) -> None:
         self.unflipped.push(card)
 
@@ -114,6 +118,10 @@ class AceStack(Stack):
                         elif card.rank == top_card.rank + 1:
                             return True # accept card if rank is one higher than top rank
         return False
+
+    def reset(self) -> None:
+        self.suit = 'None'
+        self.stack.clear()
 
     def push(self, card: Card) -> bool:
         test = self.test(card)

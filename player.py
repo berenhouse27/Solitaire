@@ -52,6 +52,7 @@ class Player:
               "P) Place from hand\n"
               "M) Move from board\n"
               "D) Draw card\n"
+              "R) Reset board\n"
               "E) Exit")
         return input("Answer (p/m/d/e): ")
 
@@ -70,6 +71,8 @@ class Player:
                 self.score_from_pile(start)
         elif answer == "d":
             self.board.deck.deal_card()
+        elif answer == "r":
+            self.board.initialize_board()
         elif answer == "e":
             print("------------------------\n"
                   "Thank you for playing!\n"

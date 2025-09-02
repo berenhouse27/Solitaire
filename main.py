@@ -1,6 +1,6 @@
 from player import *
 
-player = Player()
+player: Player = Player()
 player.initialize_board()
 
 while True:
