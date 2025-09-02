@@ -204,7 +204,7 @@ class SolitaireBoard:
         self.print_ace_piles()
         if self.deck.drawn_cards:
             card: Card = self.deck.drawn_cards[-1]
-            print(f"NEXT CARD ({len(self.deck.undrawn_cards)} LEFT): {color_card(card)}")
+            print(f"NEXT CARD ({len(self.deck.undrawn_cards)}/{len(self.deck.drawn_cards)+len(self.deck.undrawn_cards)}): {color_card(card)}")
 
     def print_success(self) -> bool:
         if self.success():
